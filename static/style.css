@@ -1,0 +1,23 @@
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+}
+
+nav {
+    background: #333;
+    padding: 10px;
+}
+
+nav a {
+    color: white;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.container {
+    padding: 20px;
+}
+
+button {
+    padding: 5px 10px;
+}
