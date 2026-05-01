@@ -1,1 +1,29 @@
 
+name: Deploy Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Test Pipeline"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          cd /home/ubuntu/third_practice || git clone https://github.com/YOUR_USERNAME/third_practice.git
+          cd third_practice
+          git pull origin main
+
+          pip3 install -r requirements.txt
+
+          pkill -f app.py || true
+          nohup python3 app.py > output.log 2>&1 &
