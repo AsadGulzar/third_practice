@@ -1,1 +1,21 @@
 
+name: Build Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Build Step
+      run: |
+        echo "Building project..."
+        python -m py_compile app.py
