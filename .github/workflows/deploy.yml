@@ -38,5 +38,4 @@ jobs:
           sudo systemctl restart myapp
 
           # restart app
-          pkill -f app.py || true
-          nohup python app.py > output.log 2>&1 &
+      
