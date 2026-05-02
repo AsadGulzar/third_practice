@@ -19,11 +19,22 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          cd /home/ubuntu/third_practice || git clone https://github.com/AsadGulzar/third_practice.git
-          cd third_practice
+          mkdir -p /home/ubuntu/third_practice
+          cd /home/ubuntu/third_practice
+
+          # clone if not exists
+          if [ ! -d ".git" ]; then
+          git clone https://github.com/AsadGulzar/third_practice.git .
+          fi
+
           git pull origin main
 
-          pip3 install -r requirements.txt
+          # setup venv
+          python3 -m venv venv
+          source venv/bin/activate
 
+          pip install -r requirements.txt
+
+          # restart app
           pkill -f app.py || true
-          nohup python3 app.py > output.log 2>&1 &
+          nohup python app.py > output.log 2>&1 &
