@@ -19,7 +19,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          cd /home/ubuntu/third_practice || git clone https://github.com/YOUR_USERNAME/third_practice.git
+          cd /home/ubuntu/third_practice || git clone https://github.com/AsadGulzar/third_practice.git
           cd third_practice
           git pull origin main
 
