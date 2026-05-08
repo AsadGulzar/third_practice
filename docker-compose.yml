@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+
+  web:
+    build: .
+
+    container_name: flaskapp
+
+    ports:
+      - "5000:8000"
+
+    restart: always
+
+    depends_on:
+      - db
+
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:password@db:5432/taskdb
+
+  db:
+    image: postgres:15
+
+    container_name: postgresdb
+
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: taskdb
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
