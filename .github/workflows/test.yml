@@ -1,32 +1,54 @@
-
-name: Test Pipeline
+name: Flask App Test
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: ["Build Pipeline"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 jobs:
+
   test:
+
     runs-on: ubuntu-latest
 
+    services:
+
+      postgres:
+        image: postgres:15
+
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: taskdb
+
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      SQLALCHEMY_DATABASE_URI: postgresql://postgres:password@localhost:5432/taskdb
+
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Install Dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    - name: Run Basic Test
-      run: |
-        python app.py &
-        sleep 5
-        curl http://localhost:8000 || exit 1
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run app test
+        run: |
+          python app.py &
+          sleep 10
+          curl http://127.0.0.1:8000
