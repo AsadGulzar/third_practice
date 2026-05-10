@@ -1,7 +1,7 @@
 services:
 
   web:
-    build: .
+    image: asadgujjar103/third-practice:latest
 
     container_name: flaskapp
 
