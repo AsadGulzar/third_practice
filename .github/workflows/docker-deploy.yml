@@ -39,12 +39,12 @@ jobs:
 
         script: |
 
-          cd /home/ubuntu/third_practice
+         cd /home/ubuntu/third_practice
 
-          docker compose down
+         git pull origin main
 
-          docker rmi asadgujjar103/third-practice:latest -f
+         docker compose down
 
-          docker pull asadgujjar103/third-practice:latest
+         docker pull asadgujjar103/third-practice:latest
 
-          docker compose up -d --force-recreate
+         docker compose up -d --force-recreate
