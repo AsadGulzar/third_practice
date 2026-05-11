@@ -45,4 +45,4 @@ jobs:
 
           docker pull asadgujjar103/third-practice:latest
 
-          docker compose up -d
+          docker compose up -d --force-recreate
